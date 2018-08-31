@@ -1,0 +1,22 @@
+{
+  "name": "fbterm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "fs-extra": "^7.0.0",
+    "lodash": "^4.17.10",
+    "prompt": "^1.0.0",
+    "prompt-choices": "^5.0.0",
+    "prompt-list": "^3.2.0",
+    "puppeteer": "^1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
