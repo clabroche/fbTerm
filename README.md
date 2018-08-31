@@ -8,6 +8,14 @@
 ```
 
 ## Usage
+
+Create a ```credentials.json``` into root project containing: 
+``` json
+{
+    "email": "<Facebook email>",
+    "password": "<Facebook password>"
+}
+```
 ``` bash
     npm run start 
 ```
