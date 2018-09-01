@@ -1,5 +1,6 @@
 # FbTerm
 
+![Demo](./demo.gif)
 ## Install
 ``` bash
     git clone git@github.com:clabroche/fbTerm.git
