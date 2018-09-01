@@ -6,6 +6,7 @@ const fbClasses = require('./fbClasses')
 const fb = {}
 
 fb.login = async function () {
+  gui.screen('lkj')
   await gui.page.evaluate(async (credentials) => {
     document.querySelector('input#email').value = credentials.email;
     document.querySelector('input#pass').value = credentials.password;
@@ -23,7 +24,7 @@ fb.sendMsg = async function () {
   const otherFriend = friends.filter(friend => friend !== sendTo).pop()
   await this.goToFriend(otherFriend);
   fbClasses.msgLocalStorage.
-    __v.encodedBlocks.blocks[0].text = await gui.writeMsg()
+    __v.encodedBlocks.blocks[0].text = await this.writeMsg(true)
   await gui.page.evaluate(option => {
     localStorage.setItem(`_cs_user:${option.id}`, option.hack)
   }, {
@@ -37,6 +38,18 @@ fb.sendMsg = async function () {
 fb.askForFriend = async function() {
   const friends = await this.getFriends()
   return gui.choices('Send message to friend', friends, 'name')
+}
+
+fb.writeMsg = async function () {
+  gui.clear()
+  return (await gui.ask({
+    properties: {
+      msg: {
+        message: 'Message to send',
+        required: true
+      }
+    }
+  })).msg
 }
 
 fb.validate = async function () {
@@ -70,7 +83,6 @@ fb.goToFriend = async function (friend) {
 }
 
 fb.getFriends = async function() {
-  console.log('Get Friends')
   return gui.page.evaluate(fbClasses => {
     const friends = []
     document.querySelectorAll(fbClasses.friendContainer).forEach(friendContainer => {

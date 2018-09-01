@@ -7,6 +7,8 @@
     "bluebird": "^3.5.1",
     "cheerio": "^1.0.0-rc.2",
     "fs-extra": "^7.0.0",
+    "get-cursor-position": "^1.0.5",
+    "iohook": "^0.2.0",
     "lodash": "^4.17.10",
     "prompt": "^1.0.0",
     "prompt-choices": "^5.0.0",
