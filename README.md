@@ -20,3 +20,9 @@ Create a ```credentials.json``` into root project containing:
 ``` bash
     npm run start 
 ```
+
+## TODO
+
+ - Get friends list from another location to have all or have "+" buttons to load more
+ - Refresh friend list on send msg
+ - Do not refresh friends list on send msg to speedup 
