@@ -2,7 +2,7 @@ const gui = require('./gui')
 const helpers = require('./helpers')
 const credentials = require('../credentials.json')
 const fbClasses = require('./fbClasses')
-
+const fse = require('fs-extra')
 const fb = {}
 
 fb.login = async function () {
@@ -17,14 +17,13 @@ fb.login = async function () {
   })
 }
 
-fb.sendMsg = async function () {
+fb.sendMsg = async function (text, sendTo) {
   await gui.page.evaluate(_ => { document.querySelector('._58al').click() });
-  const friends = await this.getFriends();
-  const sendTo = await this.askForFriend(friends)
+  const friends = await this.getFriends()
   const otherFriend = friends.filter(friend => friend !== sendTo).pop()
   await this.goToFriend(otherFriend);
   fbClasses.msgLocalStorage.
-    __v.encodedBlocks.blocks[0].text = await this.writeMsg(true)
+    __v.encodedBlocks.blocks[0].text = text
   await gui.page.evaluate(option => {
     localStorage.setItem(`_cs_user:${option.id}`, option.hack)
   }, {
@@ -75,6 +74,27 @@ fb.validate = async function () {
   });
 }
 
+fb.getFriend = async function(friend) {
+  await this.goToFriend(friend)
+  await helpers.wait(1000)
+  const conv = (await gui.page.evaluate(_=>{
+    msgs = []
+    document.querySelectorAll('._3058').forEach(item => {
+      msgs.push({
+        who: item.getAttribute('participants'),
+        body: item.textContent
+      })
+    })
+    return msgs
+  })).filter(item=>item.who).map(item=>{
+    item.who = item.who.includes(friend.id.split(':').pop()) ? friend.name : 'me'
+    return item 
+  })
+
+  await gui.screen('friend')
+  return conv
+}
+
 fb.goToFriend = async function (friend) {
   await gui.page.evaluate(friend => {
     document.querySelector(friend.id + ' a').click()
@@ -83,7 +103,7 @@ fb.goToFriend = async function (friend) {
 }
 
 fb.getFriends = async function() {
-  return gui.page.evaluate(fbClasses => {
+  const friends = gui.page.evaluate(fbClasses => {
     const friends = []
     document.querySelectorAll(fbClasses.friendContainer).forEach(friendContainer => {
       let id = friendContainer.id.split(':')
@@ -98,6 +118,8 @@ fb.getFriends = async function() {
     })
     return friends
   }, fbClasses);
+  this.friends = friends
+  return friends
 }
 
 

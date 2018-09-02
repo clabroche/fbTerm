@@ -17,7 +17,7 @@ gui.launchPuppeteer = async function() {
 
 gui.clear = function () {
     const blank = '\n'.repeat(process.stdout.rows)
-    console.log(blank)
+    (blank)
     readline.cursorTo(process.stdout, 0, 0)
     readline.clearScreenDown(process.stdout)
 }
