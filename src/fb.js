@@ -1,10 +1,9 @@
 const gui = require('./gui')
 const helpers = require('./helpers')
-const credentials = require('../credentials.json')
 const fbClasses = require('./fbClasses')
 const fb = {}
 
-fb.login = async function () {
+fb.login = async function (credentials) {
   gui.screen('lkj')
   await gui.page.evaluate(async (credentials) => {
     document.querySelector('input#email').value = credentials.email;
