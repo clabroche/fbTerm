@@ -28,14 +28,17 @@ const blessed = require('./src/gui/blessed');
   loading.render(`Log in with ${credentials.email} account`)
   await fb.login()
   loading.render(`Get friends`)
-  const friends = await fb.getFriends()
-  loading.destroy()
-  sidebar.render(friends, 'name').subscribe(async friend=>{
+  setInterval(async _=>{
+    const friends = await fb.getFriends()
+    sidebar.render(friends, 'name')
+  }, 1000)
+  sidebar.select.subscribe(async friend=>{
     loadConv.render()
     const convs = await fb.getFriend(friend)
     loadConv.destroy()
     conv.render(convs, friend)
   })
+  loading.destroy()
   
 })().catch(console.error);
 

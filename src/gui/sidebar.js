@@ -1,6 +1,6 @@
 const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
-const fb = require('../fb')
+const helpers = require('../helpers')
 const sidebar = {}
 const list = blessed.factory.list({
     parent: blessed.layout,
@@ -29,6 +29,7 @@ const list = blessed.factory.list({
 sidebar.select = new Subject()
 sidebar.render = function (array, prop) {
     list.hidden = false;
+    if(this.bak && helpers.equalityObjects(this.bak, array)) return this.select
     list.clearItems()
     this.bak = array
     this.prop = prop
