@@ -2,6 +2,7 @@ const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
 const fb = require('../fb')
 const loadConv = require('./loadConv')
+
 const conv = {}
 const box = blessed.factory.box({
   parent: blessed.layout,
@@ -102,8 +103,12 @@ conv.render = function (convs, friend) {
   for (let i = 0; i < box.getLines(); i++) {
     box.clearLine(0)
   }
-  convs.map((conv, i) => {
-    box.insertLine(i, conv.who + ': ' + conv.body)
+  let i = 0;
+  convs.map((conv) => {
+    const line = box.insertLine(i, `${conv.who}: `.underline.blue + conv.body)
+    i++
+    box.insertLine(i, ' ')
+    i++
   })
   input.focus()
   box.scrollTo(box.getLines().length + 1)

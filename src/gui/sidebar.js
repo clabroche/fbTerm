@@ -39,7 +39,7 @@ sidebar.render = function (array, prop) {
     this.bak = array
     this.prop = prop
     array.forEach(item=>{
-        const msg = item.newMsg ? `New: ${item[prop]}` : item[prop]
+        const msg = item.newMsg ? `${item[prop]}`.blue : item[prop]
         list.pushItem(msg)
     })
     blessed.render()
@@ -50,8 +50,7 @@ sidebar.destroy = function () {
     blessed.render()
 }
 list.on('select' , (item, i)=>{
-    let name = list.items[i].content.split('New: ')
-    name = name.pop()
+    let name = list.items[i].content
     let friend = sidebar.bak.filter(item => item[sidebar.prop] === name).pop()
     sidebar.select.next(friend)
 })

@@ -77,20 +77,17 @@ fb.validate = async function () {
 fb.getFriend = async function(friend) {
   await this.goToFriend(friend)
   await helpers.wait(1000)
-  const conv = (await gui.page.evaluate(_=>{
+  const conv = (await gui.page.evaluate(friend=>{
     msgs = []
     document.querySelectorAll('._3058').forEach(item => {
       msgs.push({
-        who: item.getAttribute('participants'),
+        who: item.className.includes('_43by') ? 'Me': friend.name,
         body: item.textContent
       })
     })
     return msgs
-  })).filter(item=>item.who).map(item=>{
-    item.who = item.who.includes(friend.id.split(':').pop()) ? friend.name : 'me'
-    return item 
-  })
-
+  }, friend)).filter(item=>item.who)
+  await fse.writeJson('alkjz.json', conv)
   await gui.screen('friend')
   return conv
 }
