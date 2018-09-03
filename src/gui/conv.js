@@ -1,53 +1,40 @@
 const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
 const fb = require('../fb')
-const loadConv = require('./loadConv')
 
 const conv = {}
 const box = blessed.factory.box({
   parent: blessed.layout,
-  left: '20%',
-  width: '80%',
   top: 3,
-  hidden: true,
+  left: '20%',
   height: '100%-6',
-  border: 'line',
+  width: '80%',
+  hidden: true,
   scrollable: true,
   mouse: true,
+  border: 'line',
   style: {
-    border: {
-      fg: 'lightblack'
-    },
+    border: { fg: 'lightblack' },
     selected: {
       bg: 'white',
       fg: 'black'
     },
-    focus: {
-      border: {
-        type: 'line',
-        fg: 'white'
-      }
-    }
   },
   scrollbar: {
-    style: {
-      bg: 'yellow'
-    }
+    style: { bg: 'blue' }
   },
 });
+
 var form = blessed.factory.form({
   parent: blessed.layout,
-  keys: true,
+  top: '100%-3',
   left: '20%',
   width: '80%',
-  hidden: true,
-  top: '100%-3',
   height: 3,
-  bg: 'white',
+  keys: true,
+  hidden: true,
   style: {
-    border: {
-      fg: 'lightblack'
-    },
+    border: { fg: 'lightblack' },
     focus: {
       border: {
         type: 'line',
@@ -59,16 +46,15 @@ var form = blessed.factory.form({
 
 var input = blessed.factory.textbox({
   parent: form,
+  width: '100%',
   mouse: true,
   keys: true,
   shrink: true,
   input: true,
-  width: '100%',
   inputOnFocus: true,
+  border: 'line',
   style: {
-    border: {
-      fg: 'lightblack'
-    },
+    border: { fg: 'lightblack' },
     focus: {
       border: {
         type: 'line',
@@ -76,21 +62,22 @@ var input = blessed.factory.textbox({
       }
     }
   },
-  border: 'line',
 });
+
 var title = blessed.factory.textbox({
   parent: blessed.layout,
   width: '80%',
   left: '20%',
-  height: 3,
-  align: "center",
   top:0,
+  height: 3,
   hidden: true,
+  align: "center",
+  border: 'line',
   style: {
     border: { fg: 'lightblack' },
   },
-  border: 'line',
 });
+
 conv.render = function (convs, friend) {
   this.friend = friend
   this.convs = convs
@@ -100,20 +87,18 @@ conv.render = function (convs, friend) {
   title.hidden = false
   title.content = friend.name
   box.content = ''
-  for (let i = 0; i < box.getLines(); i++) {
-    box.clearLine(0)
-  }
+  box.getLines().map(_box=>box.clearLine(0))
   let i = 0;
   convs.map((conv) => {
-    const line = box.insertLine(i, `${conv.who}: `.underline.blue + conv.body)
-    i++
-    box.insertLine(i, ' ')
-    i++
+    box.insertLine(i, `${conv.who}: `.underline.blue + conv.body)
+    box.insertLine(i+1, ' ')
+    i+=2
   })
   input.focus()
   box.scrollTo(box.getLines().length + 1)
   blessed.render()
 }
+
 conv.destroy = function (convs) {
   box.hidden = true
   input.hidden = true
@@ -121,14 +106,18 @@ conv.destroy = function (convs) {
   box.content = ''
   blessed.render()
 }
+
 conv.submit = new Subject();
+
 form.on('submit', async ev => {
   input.content = 'Send Message'
   await fb.sendMsg(ev.textbox, conv.friend)
   input.content = ''
   input.value = ''
 })
+
 input.key(['enter'], function () {
   form.submit();
 });
+
 module.exports = conv

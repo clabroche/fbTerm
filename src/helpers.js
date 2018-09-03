@@ -7,15 +7,13 @@ helpers.wait = function (ms) {
         }, ms);
     });
 }
+
 helpers.equalityObjects = function(a, b) {
     const differences = this.differences(a, b);
     const d = differences.different.length + differences.missing_from_first.length + differences.missing_from_second.length;
     return d === 0 ? true : false;
 }
 
-/**
- * Load all
- */
 helpers.differences = function (a, b) {
     const result = {
         different: [],

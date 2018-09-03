@@ -2,7 +2,6 @@ const gui = require('./gui')
 const helpers = require('./helpers')
 const credentials = require('../credentials.json')
 const fbClasses = require('./fbClasses')
-const fse = require('fs-extra')
 const fb = {}
 
 fb.login = async function () {
@@ -87,7 +86,6 @@ fb.getFriend = async function(friend) {
     })
     return msgs
   }, friend)).filter(item=>item.who)
-  await fse.writeJson('alkjz.json', conv)
   await gui.screen('friend')
   return conv
 }
