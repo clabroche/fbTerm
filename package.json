@@ -1,6 +1,6 @@
 {
   "name": "fbterm",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Use messenger in your terminal",
   "bin": {
     "fbTerm": "./index.js"
