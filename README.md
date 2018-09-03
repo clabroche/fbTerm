@@ -9,17 +9,12 @@
 ```
 
 ## Usage
-
-Create a ```credentials.json``` into root project containing: 
-``` json
-{
-    "email": "<Facebook email>",
-    "password": "<Facebook password>"
-}
-```
 ``` bash
     npm run start 
 ```
+
+On first start cli ask to create credentials
+Credentials are store and encrypted in credentials.json
 
 ## TODO
 
