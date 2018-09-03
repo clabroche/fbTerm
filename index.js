@@ -9,7 +9,7 @@ const SimpleCrypto = require("simple-crypto-js").default;
 let credentials;
 const path = require('path')
 (async () => {
-  if(!fse.existsSync(path.resolve(__dirname, 'credentials.json')) {
+  if(!fse.existsSync(path.resolve(__dirname, 'credentials.json'))) {
     await promptCredentials()
   } else  {
     credentials = require('./credentials.json')
