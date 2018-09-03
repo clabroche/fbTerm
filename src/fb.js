@@ -4,7 +4,6 @@ const fbClasses = require('./fbClasses')
 const fb = {}
 
 fb.login = async function (credentials) {
-  gui.screen('lkj')
   await gui.page.evaluate(async (credentials) => {
     document.querySelector('input#email').value = credentials.email;
     document.querySelector('input#pass').value = credentials.password;

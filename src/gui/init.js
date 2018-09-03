@@ -53,7 +53,6 @@ var password = blessed.factory.textbox({
   label: 'Password',
   inputOnFocus: true,
   censor: true,
-  content: "lkjfr",
   border: 'line',
   style: {
     border: {
@@ -148,11 +147,13 @@ keep.on('uncheck', _ => {
 })
 form.on('submit', ev=>{
   if(!email.getValue() || !password.getValue()) return
-  else init.submit.next({
+  init.submit.next({
     email: email.getValue(),
     password: password.getValue(),
     keep: keep.checked,
     secret: secret.getValue()
   })
+  form.hidden = true;
+  blessed.render()
 })
 module.exports = init

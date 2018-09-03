@@ -82,7 +82,6 @@ function simplePrompt(msg, prop, hidden, required = false) {
 }
 
 async function promptCredentials() {
-  console.log('lkj')
   return new Promise((resolve, reject) => {
     init.render().subscribe(async ev => {
       const email = ev.email;
