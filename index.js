@@ -7,8 +7,9 @@ const helpers = require('./src/helpers');
 const fse = require('fs-extra');
 const SimpleCrypto = require("simple-crypto-js").default;
 let credentials;
+const path = require('path')
 (async () => {
-  if(!fse.existsSync('./credentials.json')) {
+  if(!fse.existsSync(path.resolve(__dirname, 'credentials.json')) {
     await promptCredentials()
   } else  {
     credentials = require('./credentials.json')
