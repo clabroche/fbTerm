@@ -42,9 +42,9 @@ sidebar.destroy = function () {
   blessed.render()
 }
 
-list.on('select', (item, i) => {
+list.on('select', (_, i) => {
   let name = list.items[i].content
-  let friend = sidebar.bak.filter(item => item[sidebar.prop] === name).pop()
+  let friend = sidebar.bak.filter(item => item[sidebar.prop] === name || `${item[sidebar.prop]}`.blue === name).pop()
   sidebar.select.next(friend)
 })
 module.exports = sidebar
