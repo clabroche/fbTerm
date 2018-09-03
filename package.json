@@ -1,7 +1,10 @@
 {
   "name": "fbterm",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
+  "bin": {
+    "fbTerm": "./index.js"
+  },
   "main": "index.js",
   "dependencies": {
     "blessed": "^0.1.81",

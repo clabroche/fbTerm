@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 require('colors');
 const gui = require('./src/gui');
 const init = require('./src/gui/init');

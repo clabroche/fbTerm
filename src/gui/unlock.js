@@ -10,6 +10,7 @@ var form = blessed.factory.form({
   keys: true,
   border: 'line',
   hidden: true,
+  focusable: false,
   style: {
     border: { fg: 'lightblack' },
     focus: {
