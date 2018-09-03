@@ -38,7 +38,10 @@ sidebar.render = function (array, prop) {
     list.clearItems()
     this.bak = array
     this.prop = prop
-    array.map(item=>item[prop]).forEach(item=>list.pushItem(item))
+    array.forEach(item=>{
+        const msg = item.newMsg ? `New: ${item[prop]}` : item[prop]
+        list.pushItem(msg)
+    })
     blessed.render()
     return this.select
 }
@@ -47,7 +50,9 @@ sidebar.destroy = function () {
     blessed.render()
 }
 list.on('select' , (item, i)=>{
-    const name = list.items[i].content
-    sidebar.select.next(sidebar.bak.filter(item=>item[sidebar.prop] === name).pop())
+    let name = list.items[i].content.split('New: ')
+    name = name.pop()
+    let friend = sidebar.bak.filter(item => item[sidebar.prop] === name).pop()
+    sidebar.select.next(friend)
 })
 module.exports = sidebar

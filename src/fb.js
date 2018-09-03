@@ -113,7 +113,8 @@ fb.getFriends = async function() {
       const name = document.querySelector(id + ' ' + fbClasses.nameInFriendsList).textContent.trim()
       friends.push({
         id,
-        name
+        name,
+        newMsg: friendContainer.parentElement.className.includes('_1ht3')
       })
     })
     return friends
