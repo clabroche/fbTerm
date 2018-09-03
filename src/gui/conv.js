@@ -7,8 +7,9 @@ const box = blessed.factory.box({
   parent: blessed.layout,
   left: '20%',
   width: '80%',
+  top: 3,
   hidden: true,
-  height: '100%-3',
+  height: '100%-6',
   border: 'line',
   scrollable: true,
   mouse: true,
@@ -76,8 +77,18 @@ var input = blessed.factory.textbox({
   },
   border: 'line',
 });
-blessed.screen.key(['tab'], function (ch, key) {
-  
+var title = blessed.factory.textbox({
+  parent: blessed.layout,
+  width: '80%',
+  left: '20%',
+  height: 3,
+  align: "center",
+  top:0,
+  hidden: true,
+  style: {
+    border: { fg: 'lightblack' },
+  },
+  border: 'line',
 });
 conv.render = function (convs, friend) {
   this.friend = friend
@@ -85,6 +96,8 @@ conv.render = function (convs, friend) {
   box.hidden = false
   input.hidden = false
   form.hidden = false
+  title.hidden = false
+  title.content = friend.name
   box.content = ''
   for (let i = 0; i < box.getLines(); i++) {
     box.clearLine(0)
@@ -99,6 +112,7 @@ conv.render = function (convs, friend) {
 conv.destroy = function (convs) {
   box.hidden = true
   input.hidden = true
+  title.hidden = true
   box.content = ''
   blessed.render()
 }
