@@ -1,18 +1,18 @@
 require('colors');
 const gui = require('./src/gui');
+const init = require('./src/gui/init');
+const unlock = require('./src/gui/unlock');
 const helpers = require('./src/helpers');
 const fse = require('fs-extra');
-const prompt = require('prompt');
 const SimpleCrypto = require("simple-crypto-js").default;
 let credentials;
 (async () => {
-  prompt.start()
   if(!fse.existsSync('./credentials.json')) {
     await promptCredentials()
   } else  {
     credentials = require('./credentials.json')
     let secretKey;
-    if(credentials.secret) secretKey = (await simplePrompt('Unlock', 'unlock', true)).unlock
+    if(credentials.secret) secretKey = await unlock.render()
     else secretKey = 'Hey'
     const simpleCrypto = new SimpleCrypto(secretKey);
     credentials.password = simpleCrypto.decrypt(credentials.password)
@@ -82,24 +82,29 @@ function simplePrompt(msg, prop, hidden, required = false) {
 }
 
 async function promptCredentials() {
-  const email = (await simplePrompt('Email')).Email
-  const password = (await simplePrompt('Password', null , true)).Password
-  const keep = (await simplePrompt('Keep (y/n) [n]', 'keep')).keep === 'y' ? true : false
-  if(keep) {
-    const key = (await simplePrompt('Key to unlock credentials', 'secret', true, false)).secret
-    if(key.length) {
-      var _secretKey = key;
-      var simpleCrypto = new SimpleCrypto(_secretKey);
-      await fse.writeJson('credentials.json', {
-        email, password: simpleCrypto.encrypt(password), secret: true 
-      })
-    } else {
-      var _secretKey = 'Hey';
-      var simpleCrypto = new SimpleCrypto(_secretKey);
-      await fse.writeJson('credentials.json', {
-        email, password: simpleCrypto.encrypt(password), secret: false 
-      })
-    }
-  }
-  credentials = { email, password }
+  console.log('lkj')
+  return new Promise((resolve, reject) => {
+    init.render().subscribe(async ev => {
+      const email = ev.email;
+      const password = ev.password
+      if(ev.keep) {
+        const key = ev.secret
+        if(key.length) {
+          var _secretKey = key;
+          var simpleCrypto = new SimpleCrypto(_secretKey);
+          await fse.writeJson('credentials.json', {
+            email, password: simpleCrypto.encrypt(password), secret: true 
+          })
+        } else {
+          var _secretKey = 'Hey';
+          var simpleCrypto = new SimpleCrypto(_secretKey);
+          await fse.writeJson('credentials.json', {
+            email, password: simpleCrypto.encrypt(password), secret: false 
+          })
+        }
+      }
+      credentials = { email, password }
+      resolve(credentials)
+    })
+  });
 }
