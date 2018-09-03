@@ -3,9 +3,7 @@
 ![Demo](./demo.gif)
 ## Install
 ``` bash
-    git clone git@github.com:clabroche/fbTerm.git
-    cd fbTerm
-    npm i 
+    npm i -g @iryu54/fbterm
 ```
 
 ## Usage
@@ -15,3 +13,4 @@
 
 On first start cli ask to create credentials
 Credentials are store and encrypted in credentials.json
+git add .
