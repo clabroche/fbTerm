@@ -2,20 +2,26 @@ const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
 const helpers = require('../helpers')
 const sidebar = {}
+var colors = require('colors');
 const list = blessed.factory.list({
     parent: blessed.layout,
     width: '20%',
     hidden:true,
     height: '100%',
-    bg: 'green',
     border: 'line',
     style: {
         border: {
-            fg: 'white'
+            fg: 'lightblack'
         },
         selected: {
             bg: 'white',
             fg: 'black'
+        },
+        focus: {
+            border: {
+                type: 'line',
+                fg: 'white'
+            }
         }
     },
     items: [

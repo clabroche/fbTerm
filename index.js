@@ -32,12 +32,24 @@ const blessed = require('./src/gui/blessed');
     const friends = await fb.getFriends()
     sidebar.render(friends, 'name')
   }, 1000)
+  let currentFriend;
   sidebar.select.subscribe(async friend=>{
+    conv.destroy()
     loadConv.render()
-    const convs = await fb.getFriend(friend)
-    loadConv.destroy()
-    conv.render(convs, friend)
+    currentFriend = friend
   })
+  setInterval(async _=>{
+    if(!currentFriend) return 
+    const convs = await fb.getFriend(currentFriend)
+    await fse.writeJSON('hey.json', {
+      convold: conv.convs,
+      conv: convs
+    })
+    if (conv.convs && helpers.equalityObjects(conv.convs, convs))return 
+    conv.destroy()
+    loadConv.destroy()
+    conv.render(convs, currentFriend)
+  },1000)
   loading.destroy()
   
 })().catch(console.error);

@@ -99,7 +99,7 @@ fb.goToFriend = async function (friend) {
   await gui.page.evaluate(friend => {
     document.querySelector(friend.id + ' a').click()
   }, friend);
-  await helpers.wait(1000)
+  await helpers.wait(200)
 }
 
 fb.getFriends = async function() {
