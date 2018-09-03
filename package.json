@@ -2,6 +2,9 @@
   "name": "fbterm",
   "version": "1.4.5",
   "description": "Use messenger in your terminal",
+  "repository": {
+    "url": "https://github.com/clabroche/fbTerm"
+  },
   "bin": {
     "fbTerm": "./index.js"
   },
@@ -22,6 +25,6 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "iryu54",
+  "license": "MIT"
 }
