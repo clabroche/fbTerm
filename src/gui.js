@@ -1,11 +1,7 @@
-const getCursorPosition = require('get-cursor-position');
 const puppeteer = require('puppeteer');
 const readline = require('readline')
-var List = require('prompt-list');
-var prompt = require('prompt');
 
 const gui = {}
-prompt.start();
 
 gui.launchPuppeteer = async function() {
     this.browser = await puppeteer.launch({
@@ -55,15 +51,6 @@ gui.choices = async function (msg, list, property) {
     return property ? list.filter(item => item[property] === result).pop() : result
 }
 
-gui.ask = function (props) {
-  return new Promise((resolve, reject) => {
-    prompt.get(props, function (err, result) {
-      if(err) return reject(err)
-      resolve(result)
-    });
-  });
-}
-
 gui.close = function () {
     return this.browser.close();
 }
@@ -102,13 +89,6 @@ gui.spinner = function (x=0,y=0) {
     }, 100);
 }
 
-gui.getCursorPosition = function() {
-    return new Promise((resolve, reject) => {
-        getCursorPosition.async(function (pos) {
-            return resolve(pos)
-        });
-    });
-}
 
 gui.height = () => process.stdout.rows
 gui.width = () => process.stdout.columns

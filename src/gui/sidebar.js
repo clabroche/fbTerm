@@ -2,7 +2,6 @@ const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
 const helpers = require('../helpers')
 const sidebar = {}
-var colors = require('colors');
 const list = blessed.factory.list({
     parent: blessed.layout,
     width: '20%',
