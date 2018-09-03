@@ -66,12 +66,12 @@ async function removeData() {
 
 
 
-function simplePrompt(msg, prop, hidden) {
+function simplePrompt(msg, prop, hidden, required = false) {
   return new Promise((resolve, reject) => {
     const schema = { properties: {} }
     schema.properties[prop || msg] = {
       message: msg,
-      required: true,
+      required,
       hidden
     }
     prompt.get(schema, (err, result) => {
@@ -86,7 +86,7 @@ async function promptCredentials() {
   const password = (await simplePrompt('Password', null , true)).Password
   const keep = (await simplePrompt('Keep (y/n) [n]', 'keep')).keep === 'y' ? true : false
   if(keep) {
-    const key = (await simplePrompt('Key to unlock credentials', 'secret', true)).secret
+    const key = (await simplePrompt('Key to unlock credentials', 'secret', true, false)).secret
     if(key.length) {
       var _secretKey = key;
       var simpleCrypto = new SimpleCrypto(_secretKey);
