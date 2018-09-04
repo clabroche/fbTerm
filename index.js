@@ -5,6 +5,7 @@ const init = require('./src/gui/init');
 const unlock = require('./src/gui/unlock');
 const helpers = require('./src/helpers');
 const fse = require('fs-extra');
+const blessed= require('./src/gui/blessed')
 const SimpleCrypto = require("simple-crypto-js").default;
 let credentials;
 const path = require('path');
@@ -36,6 +37,7 @@ const path = require('path');
   const friends = await fb.getFriends()
   sidebar.render(friends, 'name')
   sidebar.element.focus()
+  blessed.screen.key('C-f', _=>{sidebar.element.focus()})
   let currentFriend;
   sidebar.select.subscribe(async friend=>{
     conv.destroy()

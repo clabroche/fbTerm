@@ -51,7 +51,6 @@ var input = blessed.factory.textbox({
   keys: true,
   shrink: true,
   input: true,
-  inputOnFocus: true,
   border: 'line',
   style: {
     border: { fg: 'lightblack' },
@@ -94,7 +93,6 @@ conv.render = function (convs, friend) {
     box.insertLine(i+1, ' ')
     i+=2
   })
-  input.focus()
   box.scrollTo(box.getLines().length + 1)
   blessed.render()
 }
