@@ -61,9 +61,9 @@ const path = require('path');
 
 
 async function removeData() {
-  await fse.remove('./userData')
-  await fse.remove('./png')
-  await fse.mkdir('./png')
+  await fse.remove(path.resolve(__dirname, 'userData'))
+  await fse.remove(path.resolve(__dirname, 'png'))
+  await fse.mkdir(path.resolve(__dirname, 'png'))
 }
 
 
@@ -93,13 +93,13 @@ async function promptCredentials() {
         if(key.length) {
           var _secretKey = key;
           var simpleCrypto = new SimpleCrypto(_secretKey);
-          await fse.writeJson('credentials.json', {
+          await fse.writeJson(path.resolve(__dirname, 'credentials.json'), {
             email, password: simpleCrypto.encrypt(password), secret: true 
           })
         } else {
           var _secretKey = 'Hey';
           var simpleCrypto = new SimpleCrypto(_secretKey);
-          await fse.writeJson('credentials.json', {
+          await fse.writeJson(path.resolve(__dirname, 'credentials.json'), {
             email, password: simpleCrypto.encrypt(password), secret: false 
           })
         }
