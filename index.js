@@ -9,7 +9,7 @@ const SimpleCrypto = require("simple-crypto-js").default;
 let credentials;
 const path = require('path');
 (async () => {
-  if(!fse.existsSync(path.resolve(__dirname, 'credentials.json'))) {
+  if(!fse.existsSync(path.resolve(path.dirname(require.main.filename), 'credentials.json'))) {
     await promptCredentials()
   } else  {
     credentials = require('./credentials.json')
@@ -33,10 +33,9 @@ const path = require('path');
   loading.render(`Log in with ${credentials.email} account`)
   await fb.login(credentials)
   loading.render(`Get friends`)
-  setInterval(async _=>{
-    const friends = await fb.getFriends()
-    sidebar.render(friends, 'name')
-  }, 1000)
+  const friends = await fb.getFriends()
+  sidebar.render(friends, 'name')
+  sidebar.element.focus()
   let currentFriend;
   sidebar.select.subscribe(async friend=>{
     conv.destroy()
@@ -61,9 +60,9 @@ const path = require('path');
 
 
 async function removeData() {
-  await fse.remove(path.resolve(__dirname, 'userData'))
-  await fse.remove(path.resolve(__dirname, 'png'))
-  await fse.mkdir(path.resolve(__dirname, 'png'))
+  await fse.remove(path.resolve(path.dirname(require.main.filename), 'userData'))
+  await fse.remove(path.resolve(path.dirname(require.main.filename), 'png'))
+  await fse.mkdir(path.resolve(path.dirname(require.main.filename), 'png'))
 }
 
 
@@ -93,13 +92,13 @@ async function promptCredentials() {
         if(key.length) {
           var _secretKey = key;
           var simpleCrypto = new SimpleCrypto(_secretKey);
-          await fse.writeJson(path.resolve(__dirname, 'credentials.json'), {
+          await fse.writeJson(path.resolve(path.dirname(require.main.filename), 'credentials.json'), {
             email, password: simpleCrypto.encrypt(password), secret: true 
           })
         } else {
           var _secretKey = 'Hey';
           var simpleCrypto = new SimpleCrypto(_secretKey);
-          await fse.writeJson(path.resolve(__dirname, 'credentials.json'), {
+          await fse.writeJson(path.resolve(path.dirname(require.main.filename), 'credentials.json'), {
             email, password: simpleCrypto.encrypt(password), secret: false 
           })
         }

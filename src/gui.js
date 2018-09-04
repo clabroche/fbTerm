@@ -5,7 +5,7 @@ const gui = {}
 gui.launchPuppeteer = async function() {
     this.browser = await puppeteer.launch({
         args: ['--no-sandbox'],
-        userDataDir: path.resolve(__dirname, 'userData')
+        userDataDir: path.resolve(path.dirname(require.main.filename), 'userData')
     });
     this.page = await this.browser.newPage();
 }
@@ -23,7 +23,7 @@ gui.goToUrl = async function (url) {
 }
 
 gui.screen = async function (name) {
-  await this.page.screenshot({ path: path.resolve(__dirname, 'png', name + '.png'), fullPage: true });
+  await this.page.screenshot({ path: path.resolve(path.dirname(require.main.filename), 'png', name + '.png'), fullPage: true });
 }
 
 gui.close = function () {

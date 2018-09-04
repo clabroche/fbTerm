@@ -22,7 +22,7 @@ const list = blessed.factory.list({
 });
 
 sidebar.select = new Subject()
-
+sidebar.element = list;
 sidebar.render = function (array, prop) {
   list.hidden = false;
   if (this.bak && helpers.equalityObjects(this.bak, array)) return this.select
