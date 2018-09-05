@@ -33,15 +33,8 @@ var form = blessed.factory.form({
   height: 3,
   keys: true,
   hidden: true,
-  style: {
-    border: { fg: 'lightblack' },
-    focus: {
-      border: {
-        type: 'line',
-        fg: 'white'
-      }
-    }
-  },
+  focusable: false,
+  input
 });
 
 var input = blessed.factory.textbox({
@@ -51,6 +44,7 @@ var input = blessed.factory.textbox({
   keys: true,
   shrink: true,
   input: true,
+  inputOnFocus: true,
   border: 'line',
   style: {
     border: { fg: 'lightblack' },

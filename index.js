@@ -34,8 +34,10 @@ const path = require('path');
   loading.render(`Log in with ${credentials.email} account`)
   await fb.login(credentials)
   loading.render(`Get friends`)
-  const friends = await fb.getFriends()
-  sidebar.render(friends, 'name')
+  setInterval(async _=>{
+    const friends = await fb.getFriends()
+    sidebar.render(friends, 'name')
+  },1000)
   sidebar.element.focus()
   blessed.screen.key('C-f', _=>{sidebar.element.focus()})
   let currentFriend;

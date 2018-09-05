@@ -1,7 +1,8 @@
 const blessed = require('./blessed')
 const Subject = require('rxjs').Subject
+const path = require('path')
 const helpers = require('../helpers')
-
+const notifier = require('node-notifier')
 const sidebar = {}
 
 const list = blessed.factory.list({
@@ -23,16 +24,27 @@ const list = blessed.factory.list({
 
 sidebar.select = new Subject()
 sidebar.element = list;
+
 sidebar.render = function (array, prop) {
   list.hidden = false;
   if (this.bak && helpers.equalityObjects(this.bak, array)) return this.select
+  
   list.clearItems()
   this.bak = array
   this.prop = prop
+  const unread = []
   array.forEach(item => {
+    if (item.newMsg) unread.push(item[prop])
     const msg = item.newMsg ? `${item[prop]}`.blue : item[prop]
     list.pushItem(msg)
   })
+  if (this.bak && unread.length) {
+    notifier.notify({
+      icon: path.resolve(__dirname, 'icon.png'),
+      title: 'Unread',
+      message: 'From: ' + unread.join(',')
+    });
+  }
   blessed.render()
   return this.select
 }
